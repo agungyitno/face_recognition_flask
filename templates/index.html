@@ -1,0 +1,346 @@
+<!-- 
+    Agung Prayitno
+    Informatika-A
+    Teknologi Informasi
+    UNWAHA 
+-->
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengenalan Wajah by Agung</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap.min.css') }}">
+    <style>
+        /* @import url(https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css); */
+        @import url(https://fonts.googleapis.com/css?family=Comfortaa);
+
+        body {
+            font-family: 'Comfortaa', cursive;
+            background: #353535;
+            color: #FFF;
+        }
+
+        .jumbotron h1 {
+            color: #353535;
+        }
+
+
+        footer {
+            margin-bottom: 0 !important;
+            margin-top: 80px;
+        }
+
+        footer p {
+            margin: 0;
+            padding: 0;
+        }
+
+        span.icon {
+            margin: 0 5px;
+            color: #D64541;
+        }
+
+        h2 {
+            color: #BDC3C7;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .mrng-60-top {
+            margin-top: 60px;
+        }
+
+        /* Global Button Styles */
+        input.animated-button {
+            position: relative;
+            display: block;
+            width: 100%;
+            margin: 30px auto 0;
+            padding: 14px 15px;
+            color: #000;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            text-transform: uppercase;
+            overflow: hidden;
+            letter-spacing: .08em;
+            border-radius: 0;
+            text-shadow: 0 0 1px rgba(0, 0, 0, 0.2), 0 1px 0 rgba(0, 0, 0, 0.2);
+            -webkit-transition: all 1s ease;
+            -moz-transition: all 1s ease;
+            -o-transition: all 1s ease;
+            transition: all 1s ease;
+        }
+
+        a.animated-button:link,
+        a.animated-button:visited {
+            position: relative;
+            display: block;
+            margin: 30px auto 0;
+            padding: 14px 15px;
+            color: #fff;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            text-transform: uppercase;
+            overflow: hidden;
+            letter-spacing: .08em;
+            border-radius: 0;
+            text-shadow: 0 0 1px rgba(0, 0, 0, 0.2), 0 1px 0 rgba(0, 0, 0, 0.2);
+            -webkit-transition: all 1s ease;
+            -moz-transition: all 1s ease;
+            -o-transition: all 1s ease;
+            transition: all 1s ease;
+        }
+
+        a.animated-button:link:after,
+        a.animated-button:visited:after {
+            content: "";
+            position: absolute;
+            height: 0%;
+            left: 50%;
+            top: 50%;
+            width: 150%;
+            z-index: -1;
+            -webkit-transition: all 0.75s ease 0s;
+            -moz-transition: all 0.75s ease 0s;
+            -o-transition: all 0.75s ease 0s;
+            transition: all 0.75s ease 0s;
+        }
+
+        a.animated-button:link:hover,
+        a.animated-button:visited:hover {
+            color: #FFF;
+            text-shadow: none;
+        }
+
+        a.animated-button:link:hover:after,
+        a.animated-button:visited:hover:after {
+            height: 450%;
+        }
+
+        a.animated-button:link,
+        a.animated-button:visited {
+            position: relative;
+            display: block;
+            margin: 30px auto 0;
+            padding: 14px 15px;
+            color: #fff;
+            font-size: 14px;
+            border-radius: 0;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            text-transform: uppercase;
+            overflow: hidden;
+            letter-spacing: .08em;
+            text-shadow: 0 0 1px rgba(0, 0, 0, 0.2), 0 1px 0 rgba(0, 0, 0, 0.2);
+            -webkit-transition: all 1s ease;
+            -moz-transition: all 1s ease;
+            -o-transition: all 1s ease;
+            transition: all 1s ease;
+        }
+
+        /* Victoria Buttons */
+
+        a.animated-button.victoria-one {
+            border: 2px solid #D24D57;
+        }
+
+        a.animated-button.victoria-one:after {
+            background: #D24D57;
+            -moz-transform: translateX(-50%) translateY(-50%) rotate(-25deg);
+            -ms-transform: translateX(-50%) translateY(-50%) rotate(-25deg);
+            -webkit-transform: translateX(-50%) translateY(-50%) rotate(-25deg);
+            transform: translateX(-50%) translateY(-50%) rotate(-25deg);
+        }
+
+        input.animated-button.victoria-two {
+            border: 2px solid #D24D57;
+        }
+
+        a.animated-button.victoria-two {
+            border: 2px solid #D24D57;
+        }
+
+        a.animated-button.victoria-two:after {
+            background: #D24D57;
+            -moz-transform: translateX(-50%) translateY(-50%) rotate(25deg);
+            -ms-transform: translateX(-50%) translateY(-50%) rotate(25deg);
+            -webkit-transform: translateX(-50%) translateY(-50%) rotate(25deg);
+            transform: translateX(-50%) translateY(-50%) rotate(25deg);
+        }
+
+        .notif {
+            padding: 20px;
+            background-color: #D24D57;
+            color: white;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 14px;
+            position: absolute;
+            top: 1em;
+            left: 1em;
+        }
+
+        div.overlay {
+            z-index: 99;
+            display: table;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        div.overlay>span {
+            display: table-cell;
+            width: 100%;
+            height: 100%;
+            background: #0000008f;
+            color: aqua;
+            text-shadow: 0 0 1px rgba(0, 0, 0, 0.2), 0 1px 0 rgba(0, 0, 0, 0.2);
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        div.hide {
+            visibility: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="overlay hide">
+        <span>
+            <div class="spinner-grow text-success" style="width: 4rem;height: 4rem;"></div>
+            <p id="loader">Loading...</p>
+        </span>
+    </div>
+    <div class="jumbotron text-center">
+        <div class="container">
+            <h1>Sistem Pengenalan Wajah</h1>
+            <p style="color:#888;">Dibuat dengan Python, OpenCV dan Flask</p>
+        </div>
+        <div class="notif" style="display: none;">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            {% for message in messages %}
+            {{ message }}
+            {% endfor %}
+            {% else %}
+            Selamat datang kawan.
+            {% endif %}
+            {% endwith %}
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h2>Pengolahan Citra Digital</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-6">
+                <form action="{{ url_for('daftar') }}" id="form_daftar" method="post">
+                    <input id="id_wajah" name="id_wajah" type="text" class="animated-button victoria-two"
+                        placeholder="Masukkan id Wajah." />
+                </form>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-6">
+                <a id="btn_pengenalan" href="{{ url_for('pengenalan') }}"
+                    class="btn btn-sm animated-button victoria-one">Pengenalan
+                    wajah</a>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-6">
+                <a id="btn_daftar" href="javascript:;" class="btn btn-sm animated-button victoria-two">Daftarkan
+                    wajah</a>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-6">
+                <a id="btn_latih" href="{{ url_for('latih') }}" class="btn btn-sm animated-button victoria-two">Latih
+                    Wajah</a>
+            </div>
+        </div>
+        <h3 style="color:#fff;text-align: center;margin-top:  3em;">Karya : Agung Prayitno</h3>
+        <h4 style="color:#fff;text-align: center;margin-top:  1em;">Informatika | Fakultas Teknologi Informasi</h4>
+    </div>
+    <div id="pengenalan_modal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
+        aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <!-- <div class="modal-header">
+                    <h5 class="modal-title text-dark" id="exampleModalLabel">Pengenalan Wajah</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div> -->
+                <div class="modal-body text-center">
+                    <img id="img_id" src="" width="100%" alt="Pengenalan wajah">
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <script src="{{ url_for('static',filename='js/jquery-3.5.1.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/bootstrap.min.js') }}"></script>
+    <script>
+        var id = $('#id_wajah');
+        var form_id = $('#form_daftar');
+        var notif = $('.notif');
+        var loader = $('#loader');
+        var overlay = $('.overlay');
+        notifikasi('Sukses', notif.html());
+        $('#btn_daftar').click(function () {
+            if (id.val() != '') {
+                loader.html('Sedang mendaftarkan wajah, Hadapkan wajah anda ke kamera');
+                overlay.removeClass('hide');
+                // form_id.submit();
+                $.post("{{ url_for('daftar') }}",
+                    {
+                        id_wajah: id.val(),
+                    });
+                setTimeout(() => {
+                    overlay.addClass('hide').fadeOut('slow');
+                    notifikasi('Sukses', 'wajah dengan id: ' + id.val() + ' Berhasil ditambahkan.');
+                    id.val('');
+                }, 9000);
+            } else {
+                notifikasi('Peringatan', 'Field id wajah tidak boleh kosong!');
+                id.focus();
+            }
+        });
+
+        $('#btn_latih').click(function (e) {
+            loader.html('Sedang melatih semua wajah, Tunggu hingga selesai.');
+            overlay.removeClass('hide');
+        });
+
+        $('#btn_pengenalan').click(function (e) {
+            e.preventDefault();
+            $('#pengenalan_modal').modal('show');
+            // loader.html('Pengenalan wajah sedang berlangsung.');
+            // overlay.removeClass('hide');
+        });
+
+        $('#pengenalan_modal').on('show.bs.modal', function (e) {
+            $('#img_id').attr('src', '{{ url_for("video_feed") }}');
+        })
+        $('#pengenalan_modal').on('hidden.bs.modal', function (e) {
+            $('#img_id').attr('src', '');
+        })
+
+        function notifikasi(judul, pesan) {
+            notif.html('<strong>' + judul + '</strong>. ' + pesan);
+            notif.attr('style', 'display:block').fadeIn('slow');
+            setTimeout(() => {
+                notif.attr('style', 'display:none').fadeOut('slow');
+            }, 9000);
+        }
+    </script>
+</body>
+
+</html>
